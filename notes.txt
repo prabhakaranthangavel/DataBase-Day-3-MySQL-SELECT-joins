@@ -1,0 +1,265 @@
+Content
+
+1.Foreign key
+2.SELECT - joins
+
+*************************************************************************************************************************
+
+1.Foreign key 
+
+
+foreign key create a table
+foreign key ஐ create செய்வதற்கு
+
+query : create table <table_name> (<column_name> <data_type> <constraint>, 
+                                   <column_name> <data_type> <constraint>, ...........,
+                     foreign key (<column_name>) references <table_name> (<column_name>));
+
+
+After creating a table
+table ஐ create செய்த பின் foreign key ஐ இணைப்பதற்கு
+
+query : alter table <table_name> add foreign key (<column_name>) references <table_name> (<column_name>);
+
+Example : 
+
+id         : int, primary key, auto_increment
+student_id : int, foreign key references students(id)
+course_id  : int, foreign key references courses(id)
+
+
+create table xxx (id int primary key auto_increment, student_id int, course_id int);
+
+
+alter table xxx add constraint fk_student_id foreign key (student_id) references students(id); 
+                   (or)
+alter table xxx add constraint student_id foreign key (student_id) references students(id); 
+
+alter table xxx add constraint fk_course_id foreign key (course_id) references courses(id);
+                   (or)
+alter table xxx add constraint course_id foreign key (course_id) references courses(id);
+
+*************************************************************************************************************************
+
+2.SELECT - joins :
+
+===>Joins are used to combine the data from two or more tables.
+    இரண்டு அல்லது அதற்கு மேற்பட்ட table களில் உள்ள data ஐ combine செய்வதற்கு joins பயன்படுகிறது.
+
+===>There are different types of joins
+
+    (1)inner join
+
+    (2)outer join 
+        ***left outer join 
+        ***right outer join 
+        ***full outer join
+
+===>Follow Step 19,20,21 to join.
+    join செய்வதற்கு Step 19,20,21 ஐ  follow செய்ய வேண்டும்.
+
+                ************************************************************
+
+Example :
+
+Step 1 : mysql -u root -p
+         Login செய்ய
+
+Step 2 : create database lakshmi;
+         lakshmi என்ற ஒரு புதிய database ஐ உருவாக்குகிறோம்.
+
+Step 3 : show databases;
+
+Step 4 : use lakshmi;
+         database ஐ show செய்து அதனை use செய்கிறோம்.
+
+Step 5 : create table students (id int not null, name varchar(255), cid int);
+         students என்ற ஒரு புதிய table ஐ உருவாக்குகிறோம்.
+         அதில் சில records களை சேர்க்கிறோம். => (id,name,cid)
+
+Step 6 : desc students;
+         students என்ற table ன் உடைய structure ஐ தெரிந்து கொள்கிறோம்.
+
+Step 7 : insert into students values(1,"P",3),(2,"Q",3),(1,"P",4);
+         students என்ற table ல் (id,name,cid) போன்றவைக்கு value ஐ insert செய்கிறோம்.
+
+Step 8 : Select * from students;
+         id,name,cid க்கு value ஐ insert ஆனதை காணலாம்.
+
+Step 9 : create table centres (id int not null, name varchar(255), location varchar(255));
+         centres என்ற ஒரு புதிய table ஐ உருவாக்குகிறோம்.
+         அதில் சில records களை சேர்க்கிறோம். => (id,name,location)
+
+Step 10: desc centres;
+         desc என்ற table ன் உடைய structure ஐ தெரிந்து கொள்கிறோம்.
+
+Step 11: insert into centres values(1,'pqr','erode'),(2,'mno','salem'),(3,'abc','covai'),(4,'xyz','chennai');
+         centres என்ற table ல் (id,name,location) போன்றவைக்கு value ஐ insert செய்கிறோம்.
+
+Step 12: Select * from centres;
+         id,name,location க்கு value ஐ insert ஆனதை காணலாம்.
+ 
+Step 13: alter table centres add constraint pk_centre_id primary key(id);
+         centres என்ற table ல் உள்ள id க்கு நாம் primary key ஐ set செய்கிறோம்.
+
+Step 14: desc centres;
+         primary key ஐ set ஆனதை காணலாம்.
+
+Step 15: Rename table students to studentinternships;
+         நம்முடைய புரிதலுக்காக students என்ற table க்கு studentinternships என்று Rename கொடுக்கிறோம்.
+
+Step 16: desc studentinternships;
+         studentinternships என்று Rename ஆனதை காணலாம்.
+
+Step 17: select * from Studentinternships;
+         studentinternships என்ற table ல் உள்ள data ஐ பார்க்கிறோம்.
+
+Step 18: select * from centres;
+         அதே போல் centres என்ற table ல் உள்ள data ஐ பார்க்கிறோம்.
+
+Step 19: select studentinternships.id, studentinternships.name, centres.name, centres.location from Studentinternships inner join centres on studentinternships.cid = centres.id;
+         
+         studentinternships என்ற table யும் centres என்ற table யும் joins செய்வதற்கு id ஐ பயன்படுத்துகிறோம்.
+         
+         இப்பொழுது studentinternships என்ற table ல் உள்ள data ஆனது centres என்ற table ல் join ஆகி நமக்கு data ஐ காட்டும்.
+
+                ************************************************************
+
+Exercise to Joins
+
+1.Create a database called "mydb" and create a table called "students" with the following columns:
+
+id      : int, primary key, auto_increment
+name    : varchar(255), not null
+age     : int, not null
+email   : varchar(255), not null, unique 
+phone   : varchar(255), not null, unique
+address : varchar(255), not null
+
+
+2.At the same database and Create a table called "courses" with the following columns:
+
+id      : int, primary key, auto_increment
+name    : varchar(255), not null
+duration: int, not null
+fees    : int, not null
+
+
+3.Insert the following records into the table "students"
+
+1, "John",  25, "john@abc.com",  "1234567890", "123, abc street, xyz city, 12345"
+2, "Smith", 26, "smith@abc.com", "1234567891", "124, abc street, xyz city, 12345"
+3, "Mary",  27, "mary@abc.com",  "1234567892", "125, abc street, xyz city, 12345"
+4, "Tom",   28, "tom@abc.com",   "1234567893", "126, abc street, xyz city, 12345"
+5, "Jerry", 29, "jerry@abc.com", "1234567894", "127, abc street, xyz city, 12345"
+6, "Peter", 30, "peter@abc.com", "1234567895", "128, abc street, xyz city, 12345"
+
+
+4.Insert the following records into the table "courses"
+
+1, "Java",       3, 3000
+2, "Python",     3, 3000
+3, "JavaScript", 3, 3000
+4, "Angular",    3, 3000
+5, "React",      3, 3000
+6, "Node",       3, 3000
+
+
+5.Create a table called "students_courses" with the following columns:
+
+id         : int, primary key, auto_increment
+student_id : int, foreign key references students(id)
+course_id  : int, foreign key references courses(id)
+
+
+6.Insert the following records into the table "student_courses"
+
+1,1,1
+2,1,2
+3,1,3
+4,2,1
+5,2,2
+
+
+7.Write a query to select all the students who have enrolled for the course "Java"
+
+
+Step 1  : Login mysql -u root -p
+          Login செய்ய
+
+Step 2  : create database mydb;
+          mydb என்ற ஒரு புதிய database ஐ உருவாக்குகிறோம்.
+
+Step 3  : show databases;
+          database ஐ show செய்கிறோம்.
+
+Step 4  : use mydb;
+          database ஐ show செய்து அதனை use செய்கிறோம்.
+
+Step 5  : select database();
+          mydb என்ற database ஐ select செய்து உள்ளோமா என்பதை கவனித்துக் கொள்கிறோம்.
+
+Step 6  : show tables;
+          mydb என்ற database ல் ஏதேனும் tables உள்ளதா என்பதை கவனித்துக் கொள்கிறோம்.
+
+Step 7  : create table students (id int primary key auto_increment,name varchar(255) not null,age int not null,email varchar(255) not null unique, phone varchar(255) not null unique, address varchar(255) not null);
+          students என்ற table ஐ create செய்கிறோம்.
+
+Step 8  : desc students;
+          students என்ற table ன் structure ஐ view செய்கிறோம்.
+
+Step 9  : create table courses (id int primary key auto_increment,name varchar(255) not null,duration int not null,fees int not null);
+          courses என்ற table ஐ create செய்கிறோம்.
+
+Step 10 : desc courses;
+          courses என்ற table ன் structure ஐ view செய்கிறோம்.
+
+Step 11 : insert into students values(1, "John",  25, "john@abc.com",  "1234567890", "123, abc street, xyz city, 12345"), (2, "Smith", 26, "smith@abc.com", "1234567891", "124, abc street, xyz city, 12345"), (3, "Mary",  27, "mary@abc.com",  "1234567892", "125, abc street, xyz city, 12345"), (4, "Tom",   28, "tom@abc.com",   "1234567893", "126, abc street, xyz city, 12345"), (5, "Jerry", 29, "jerry@abc.com", "1234567894", "127, abc street, xyz city, 12345"),(6, "Peter", 30, "peter@abc.com", "1234567895", "128, abc street, xyz city, 12345");
+          students என்ற table க்கு values ஐ insert செய்கிறோம்.
+
+Step 12 : select * from students;
+          students என்ற table க்கு values,,,insert ஆகி உள்ளதா என்பதை view செய்கிறோம்.
+
+Step 13 : insert into courses values (1,"Java",3,3000),(2,"Python",3,3000), (3,"JavaScript",3,3000), (4,"Angular",3,3000), (5,"React",3,3000),(6,"Node",3,3000);
+          courses என்ற table க்கு values ஐ insert செய்கிறோம்.
+
+Step 14 : select * from courses;
+          students என்ற table க்கு values,,,insert ஆகி உள்ளதா என்பதை view செய்கிறோம்.
+
+Step 15 : create table students_courses (id int primary key auto_increment, student_id int, course_id int);
+          students_courses என்ற table ஐ create செய்கிறோம்.
+
+Step 16 : alter table students_courses add constraint fk_student_id foreign key (student_id) references students(id);
+          alter table students_courses add constraint fk_course_id foreign key (course_id) references courses(id);
+          அதில் student_id மற்றும் course_id என்ற record க்கு foreign key ஐ set செய்கிறோம்.
+
+Step 17 : desc students_courses;
+          students_courses என்ற table ன் structure ஐ view செய்கிறோம்.
+
+Step 18 : insert into students_courses values (1,1,1), (2,1,2),(3,1,3),(4,2,1),(5,2,2);
+          students_courses என்ற table க்கு values ஐ insert செய்கிறோம்.
+
+Step 19 : select * from students_courses;
+          students_courses என்ற table க்கு values,,,insert ஆகி உள்ளதா என்பதை view செய்கிறோம்.
+
+Step 20 : select s.id, s.student_id, s.course_id, c.name, c.duration, c.fees from students_courses as s
+          -> left join courses as c on s.course_id = c.id
+          -> left join students on s.student_id = students.id;
+
+          students_courses என்ற table ல் உள்ள (id & student_id & course_id) மற்றும் 
+          courses என்ற table ல் உள்ள (name & duration & fees) ஆகியவற்றை join செய்கிறோம்.
+          
+          students_courses என்ற table க்கு "s" என்று Rename கொடுக்கிறோம்.
+          courses என்ற table க்கு "c" என்று Rename கொடுக்கிறோம்.
+
+
+Step 21 : select s.id, s.student_id, s.course_id, c.name, c.duration, c.fees, students.name, students.email from students_courses as s left join courses as c on s.course_id = c.id left join students on s.student_id = students.id;
+          அதேபோல் name மற்றும் email என்ற column ஐ join செய்கிறோம்.
+
+
+Step 22 : select s.* from students s inner join students_courses sc on s.id = sc.student_id inner join courses c on sc.course_id = c.id where c.name = "Java";
+          
+          இப்பொழுது John மற்றும் Smith என்ற output கிடைக்கும்.
+
+
+*************************************************************************************************************************
